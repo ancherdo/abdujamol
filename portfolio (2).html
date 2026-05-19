@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abdujamol Dilshod o'g'li — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Raleway:wght@300;400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --accent: #e8ff47;
+      --accent2: #47ffe8;
+      --text: #f0f0f0;
+      --muted: #666680;
+      --border: rgba(232,255,71,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Raleway', sans-serif; overflow-x: hidden; }
+
+    .cursor { width: 12px; height: 12px; background: var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); mix-blend-mode: difference; transition: left .08s, top .08s; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; padding: 1.2rem 3rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: linear-gradient(to bottom, rgba(10,10,15,.97), transparent); backdrop-filter: blur(6px); }
+    .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--accent); letter-spacing: 3px; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: .78rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; transition: color .3s; }
+    .nav-links a:hover { color: var(--accent); }
+
+    #hero { min-height: 100vh; display: flex; align-items: center; padding: 0 10vw; position: relative; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; width: 100%; }
+    .hero-tag { font-size: .7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; opacity: 0; animation: fadeUp .6s .3s forwards; }
+    .hero-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.2rem, 7.5vw, 6.5rem); line-height: .92; color: var(--text); opacity: 0; animation: fadeUp .6s .5s forwards; }
+    .hero-name span { color: var(--accent); }
+    .hero-ugil { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.2rem, 2.5vw, 2rem); color: var(--muted); letter-spacing: 4px; margin-top: .4rem; display: block; }
+    .hero-sub { margin-top: 1.5rem; font-size: 1rem; color: var(--muted); line-height: 1.8; max-width: 420px; font-weight: 300; opacity: 0; animation: fadeUp .6s .7s forwards; }
+    .hero-meta { margin-top: 2rem; display: flex; gap: 2rem; flex-wrap: wrap; opacity: 0; animation: fadeUp .6s .9s forwards; }
+    .meta-item label { display: block; font-size: .6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: .3rem; }
+    .meta-item span { font-size: .9rem; font-weight: 700; color: var(--text); }
+    .cta-row { margin-top: 3rem; display: flex; gap: 1rem; opacity: 0; animation: fadeUp .6s 1.1s forwards; }
+    .btn-primary { padding: .8rem 2rem; background: var(--accent); color: #000; font-family: 'Raleway', sans-serif; font-weight: 800; font-size: .78rem; letter-spacing: 2px; text-transform: uppercase; border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: transform .2s, box-shadow .2s; clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(232,255,71,.35); }
+    .btn-secondary { padding: .8rem 2rem; background: transparent; color: var(--text); font-family: 'Raleway', sans-serif; font-weight: 600; font-size: .78rem; letter-spacing: 2px; text-transform: uppercase; border: 1px solid var(--border); cursor: pointer; text-decoration: none; display: inline-block; transition: border-color .2s, color .2s; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-visual { display: flex; justify-content: center; align-items: center; opacity: 0; animation: fadeIn .8s 1s forwards; }
+    .avatar-ring { width: 320px; height: 320px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; position: relative; animation: spin 22s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .avatar-ring::before { content: ''; position: absolute; width: 110%; height: 110%; border-radius: 50%; border: 1px dashed rgba(71,255,232,.15); animation: spin 12s linear infinite reverse; }
+    .avatar-inner { width: 250px; height: 250px; border-radius: 50%; background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; animation: spin 22s linear infinite reverse; border: 2px solid rgba(232,255,71,.25); box-shadow: 0 0 60px rgba(232,255,71,.1), inset 0 0 40px rgba(71,255,232,.05); }
+    .avatar-initials { font-size: 4.5rem; color: var(--accent); line-height: 1; }
+    .avatar-year { font-size: 1rem; color: var(--accent2); letter-spacing: 4px; margin-top: .2rem; }
+    .orbit-dot { position: absolute; width: 10px; height: 10px; background: var(--accent2); border-radius: 50%; top: -5px; left: 50%; box-shadow: 0 0 10px var(--accent2); }
+    .orbit-dot2 { position: absolute; width: 7px; height: 7px; background: var(--accent); border-radius: 50%; bottom: -3px; right: 20%; box-shadow: 0 0 8px var(--accent); }
+
+    section { padding: 7rem 10vw; }
+    .section-label { font-size: .65rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: .8rem; }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1; margin-bottom: 3rem; }
+    .section-title span { color: var(--accent); }
+    .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+
+    #about .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .about-text { font-size: 1rem; color: var(--muted); line-height: 1.9; font-weight: 300; }
+    .about-text strong { color: var(--text); font-weight: 700; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .stat-card { padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); position: relative; overflow: hidden; transition: transform .3s, border-color .3s; }
+    .stat-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
+    .stat-card:hover { transform: translateY(-4px); border-color: rgba(232,255,71,.3); }
+    .stat-card:hover::after { transform: scaleX(1); }
+    .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--accent); line-height: 1; }
+    .stat-label { font-size: .68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: .4rem; }
+
+    #skills { background: var(--surface); }
+    .skills-wrap { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .skill-card { padding: 1.8rem; background: var(--bg); border: 1px solid var(--border); transition: transform .3s, border-color .3s; }
+    .skill-card:hover { transform: translateY(-4px); border-color: rgba(232,255,71,.4); }
+    .skill-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .skill-name { font-weight: 700; font-size: 1rem; margin-bottom: .4rem; }
+    .skill-desc { font-size: .82rem; color: var(--muted); line-height: 1.7; }
+    .skill-bar { margin-top: 1rem; height: 3px; background: rgba(255,255,255,.07); }
+    .skill-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transform: scaleX(0); transform-origin: left; transition: transform 1.2s ease; }
+    .skill-bar-fill.animate { transform: scaleX(1); }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); overflow: hidden; transition: transform .3s, border-color .3s; }
+    .project-card:hover { transform: translateY(-6px); border-color: rgba(232,255,71,.35); }
+    .project-thumb { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
+    .project-body { padding: 1.5rem; }
+    .project-tag { font-size: .6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
+    .project-title { font-size: 1.1rem; font-weight: 700; margin-bottom: .6rem; }
+    .project-desc { font-size: .82rem; color: var(--muted); line-height: 1.7; }
+
+    #contact { background: var(--surface); }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-text { font-size: 1rem; color: var(--muted); line-height: 1.9; font-weight: 300; }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    .contact-link { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; background: var(--bg); border: 1px solid var(--border); color: var(--text); text-decoration: none; font-size: .85rem; font-weight: 600; transition: border-color .2s, color .2s, transform .2s; }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateX(6px); }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { display: block; font-size: .65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
+    .form-group input, .form-group textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: .9rem 1.1rem; font-family: 'Raleway', sans-serif; font-size: .9rem; outline: none; transition: border-color .2s; }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+    .form-group textarea { height: 120px; resize: vertical; }
+
+    footer { padding: 2.5rem 10vw; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 1rem; }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--muted); letter-spacing: 3px; }
+    .footer-copy { font-size: .75rem; color: var(--muted); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s, transform .7s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 6vw; }
+      .hero-grid, #about .grid, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-visual { order: -1; }
+      .avatar-ring { width: 210px; height: 210px; }
+      .avatar-inner { width: 165px; height: 165px; }
+      .avatar-initials { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+
+  <nav>
+    <div class="logo">AAD</div>
+    <ul class="nav-links">
+      <li><a href="#about">Haqimda</a></li>
+      <li><a href="#skills">Ko'nikmalar</a></li>
+      <li><a href="#projects">Loyihalar</a></li>
+      <li><a href="#contact">Aloqa</a></li>
+    </ul>
+  </nav>
+<br><br>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid">
+      <div>
+        <p class="hero-tag">Portfolio — 2026</p>
+        <h1 class="hero-name">
+          Abdujamol<br>
+          <span>Abdujalilov</span><br>
+          <span class="hero-ugil">Dilshod O'g'li</span>
+        </h1>
+        <p class="hero-sub">
+          Yosh, ishtiyoqli va maqsadga yo'nalgan shaxs. Texnologiya va ijod dunyosiga ko'ngil qo'ygan — kelajak mutaxassisi.
+        </p>
+        <div class="hero-meta">
+          <div class="meta-item">
+            <label>Tug'ilgan sana</label>
+            <span>04 / 08 / 2010</span>
+          </div>
+          <div class="meta-item">
+            <label>Yoshi</label>
+            <span>15 yosh</span>
+          </div>
+          <div class="meta-item">
+            <label>Manzil</label>
+            <span>O'zbekiston</span>
+          </div>
+          <div class="meta-item">
+            <label>Yil</label>
+            <span>2026</span>
+          </div>
+        </div>
+        <div class="cta-row">
+          <a href="#projects" class="btn-primary">Loyihalar →</a>
+          <a href="#contact" class="btn-secondary">Bog'lanish</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="avatar-ring">
+          <div class="orbit-dot"></div>
+          <div class="orbit-dot2"></div>
+          <div class="avatar-inner">
+            <div class="avatar-initials">AAD</div>
+            <div class="avatar-year">2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label reveal">Tanishuv</p>
+    <h2 class="section-title reveal">Men <span>Haqimda</span></h2>
+    <div class="grid">
+      <div>
+        <p class="about-text reveal">
+          Salom! Men <strong>Abdujamol Dilshod o'g'li Abdujalilov</strong> — 2010-yil 4-avgustda tug'ilganman. Hozirda 15 yoshdaman va maktabda o'qiyman.
+          <br><br>
+          Texnologiya, dasturlash va ijodiy loyihalarga katta qiziqaman. <strong>Har kuni yangi narsa o'rganish</strong> — mening odatim. Muammolarni mantiqiy va ijodiy usulda hal qilishni yaxshi ko'raman.
+          <br><br>
+          Kelajakda <strong>yetuk IT mutaxassisi</strong> bo'lib, O'zbekiston texnologiya sohasiga hissa qo'shishni xohlayman.
+        </p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card reveal">
+          <div class="stat-num">15</div>
+          <div class="stat-label">Yosh (2026)</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-num">2010</div>
+          <div class="stat-label">Tug'ilgan yil</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Intilish</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Ishtiyoq</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label reveal">Qobiliyatlar</p>
+    <h2 class="section-title reveal">Ko'nikma va <span>Qiziqishlar</span></h2>
+    <div class="skills-wrap">
+      <div class="skill-card reveal">
+        <div class="skill-icon">💻</div>
+        <div class="skill-name">Dasturlash</div>
+        <div class="skill-desc">HTML, CSS va Python asoslarini o'rganmoqdaman. Kod yozish — mening sevimli mashg'ulotim.</div>
+        <div class="skill-bar"><div class="skill-bar-fill" style="--w:0.65" data-width="0.65"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🎨</div>
+        <div class="skill-name">Dizayn</div>
+        <div class="skill-desc">Ijodiy fikrlash va vizual ifoda. Chiroyli interfeys va grafik dizayn yaratishni yaxshi ko'raman.</div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="0.55"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">📐</div>
+        <div class="skill-name">Matematika</div>
+        <div class="skill-desc">Mantiqiy fikrlash va aniq hisob-kitob. Murakkab masalalarni yechishdan zavq olaman.</div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="0.78"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🌐</div>
+        <div class="skill-name">Tillar</div>
+        <div class="skill-desc">O'zbek va Rus tillarini bilaman. Ingliz tilini faol o'rganmoqdaman.</div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="0.70"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🚀</div>
+        <div class="skill-name">Tashabbuskorlik</div>
+        <div class="skill-desc">Yangi g'oyalarni hayotga tatbiq etishga doim tayyor. Har qanday loyihaga to'liq berilaman.</div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="0.90"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🤝</div>
+        <div class="skill-name">Jamoa ishlash</div>
+        <div class="skill-desc">Hamkorlikda ishlashni, fikr almashishni va boshqalardan o'rganishni yaxshi ko'raman.</div>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="0.82"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label reveal">Ishlar</p>
+    <h2 class="section-title reveal">Mening <span>Loyihalarim</span></h2>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#1a1a2e,#e8ff4722)">🌐</div>
+        <div class="project-body">
+          <div class="project-tag">Web — 2026</div>
+          <div class="project-title">Portfolio Sayt</div>
+          <div class="project-desc">Shaxsiy portfolio veb-sayt. HTML va CSS yordamida yaratilgan zamonaviy dizayn.</div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#0f3460,#47ffe822)">🎮</div>
+        <div class="project-body">
+          <div class="project-tag">O'yin — 2026</div>
+          <div class="project-title">Mini O'yin Loyihasi</div>
+          <div class="project-desc">Mantiqiy o'ylash uchun mini o'yin. Python asoslarini o'rganish jarayonida yaratilgan.</div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#16213e,#e8ff4715)">📱</div>
+        <div class="project-body">
+          <div class="project-tag">Kelajak</div>
+          <div class="project-title">Mobil Ilova (Reja)</div>
+          <div class="project-desc">Kelajakda mobil ilova yaratish maqsadim bor. Flutter o'rganishni boshlagan edim.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label reveal">Muloqot</p>
+    <h2 class="section-title reveal">Menga <span>Yozing</span></h2>
+    <div class="contact-inner">
+      <div>
+        <p class="contact-text reveal">Yangi loyihalar, hamkorlik yoki shunchaki salom aytish uchun murojaat qiling! Men har doim yangi bilim va imkoniyatlarga ochiqman.</p>
+        <div class="contact-links">
+          <a class="contact-link reveal" href="#">
+            <span>📧</span><span>abdujamol@email.com</span>
+          </a>
+          <a class="contact-link reveal" href="#">
+            <span>📱</span><span>Telegram: @abdujamol_d</span>
+          </a>
+          <a class="contact-link reveal" href="#">
+            <span>🌍</span><span>O'zbekiston, 2026</span>
+          </a>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="form-group">
+          <label>Ismingiz</label>
+          <input type="text" placeholder="Ismingizni kiriting"/>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="email@example.com"/>
+        </div>
+        <div class="form-group">
+          <label>Xabar</label>
+          <textarea placeholder="Xabaringizni yozing..."></textarea>
+        </div>
+        <button class="btn-primary" onclick="alert('Xabar yuborildi! Tez orada javob beraman 🚀')">Yuborish →</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Abdujamol Dilshod O'g'li</div>
+    <div class="footer-copy">© 2026 Abdujamol Abdujalilov. Barcha huquqlar himoyalangan.</div>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          e.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+            const w = parseFloat(bar.dataset.width || 1);
+            bar.style.transform = `scaleX(${w})`;
+          });
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
